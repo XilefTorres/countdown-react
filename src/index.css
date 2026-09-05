@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&display=swap");
+@import "tailwindcss";
+
+@font-face {
+  font-family: "DSEG7 Classic";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src:
+    url("https://cdn.jsdelivr.net/fontsource/fonts/dseg7-classic@latest/latin-700-normal.woff2")
+      format("woff2"),
+    url("https://cdn.jsdelivr.net/fontsource/fonts/dseg7-classic@latest/latin-700-normal.woff")
+      format("woff");
+}
+
+@layer utilities {
+  .animate-flip {
+    animation: flipFront 480ms ease-in forwards;
+  }
+}
+
+@keyframes flipFront {
+  0% {
+    transform: rotateX(0deg);
+    filter: brightness(1);
+  }
+  60%,
+  100% {
+    transform: rotateX(-90deg);
+    filter: brightness(0.65);
+  }
+}
