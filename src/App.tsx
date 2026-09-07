@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { DisplayGroup } from "./components/DisplayGroup";
 import { Colon } from "./components/Colon";
+import { ColorPicker } from "./components/ColorPicker";
 
 type Status = "stopped" | "running" | "paused";
 
@@ -11,6 +12,15 @@ export default function CountdownApp() {
 
   const [status, setStatus] = useState<Status>("stopped");
   const [remainingMs, setRemainingMs] = useState<number>(60000);
+  const [numberColor, setNumberColor] = useState<string>("#ff1a1a");
+
+  // Helper to convert hex to r, g, b
+  const hexToRgb = (hex: string) => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+      ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
+      : "255, 26, 26";
+  };
 
   const rafRef = useRef<number | null>(null);
   const endPerfRef = useRef<number>(0);
@@ -85,12 +95,18 @@ export default function CountdownApp() {
 
   // Clases para los inputs (Tailwind)
   const inputClass =
-    "w-16 text-center font-['Rajdhani',system-ui,sans-serif] text-[20px] font-semibold text-[#ff1a1a] bg-[#0e0c0a] border border-[#2a2320] rounded-lg py-1.5 px-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ff1a1a] disabled:opacity-40";
+    "w-16 text-center font-['Rajdhani',system-ui,sans-serif] text-[20px] font-semibold text-[color:var(--theme-color)] bg-[#0e0c0a] border border-[#2a2320] rounded-lg py-1.5 px-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--theme-color)] disabled:opacity-40";
   const labelClass =
     "text-[#cfe8d6] text-[13px] font-semibold tracking-[0.03em]";
 
   return (
-    <main className="min-h-screen w-full flex flex-col items-center justify-center gap-[clamp(28px,5vw,64px)] p-8 bg-[#00ff00] font-['Rajdhani',system-ui,sans-serif]">
+    <main
+      className="min-h-screen w-full flex flex-col items-center justify-center gap-[clamp(28px,5vw,64px)] p-8 bg-[#00ff00] font-['Rajdhani',system-ui,sans-serif]"
+      style={{
+        "--theme-color": numberColor,
+        "--theme-color-rgb": hexToRgb(numberColor),
+      } as React.CSSProperties}
+    >
       <div
         className="flex items-end gap-[clamp(10px,2.4vw,28px)] flex-wrap justify-center"
         aria-hidden="true"
@@ -206,6 +222,10 @@ export default function CountdownApp() {
             </svg>
             <span>Detener</span>
           </button>
+        </div>
+
+        <div className="mt-4 border-t border-[#2a2320] pt-5 w-full flex justify-center">
+          <ColorPicker color={numberColor} onChange={setNumberColor} />
         </div>
       </section>
     </main>

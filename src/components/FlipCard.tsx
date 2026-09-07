@@ -47,12 +47,12 @@ export const FlipCard: React.FC<FlipCardProps> = ({ digit, flip, isMinor }) => {
     ? "text-[calc(clamp(30px,5.5vw,54px)*0.72)]"
     : "text-[calc(clamp(74px,14vw,136px)*0.72)]";
 
-  // Colores Rojo LED
-  const cardClasses = `relative rounded-[10px] [perspective:400px] shadow-[0_10px_18px_rgba(0,0,0,0.35)] text-[#ff1a1a] font-['DSEG7_Classic',monospace] ${cardW} ${cardH}`;
+  // Colores LED (usando variables CSS)
+  const cardClasses = `relative rounded-[10px] [perspective:400px] shadow-[0_10px_18px_rgba(0,0,0,0.35)] text-[color:var(--theme-color)] font-['DSEG7_Classic',monospace] ${cardW} ${cardH}`;
   const halfClasses =
     "absolute left-0 w-full h-1/2 overflow-hidden [backface-visibility:hidden] z-10";
   const textShadow =
-    "[text-shadow:0_0_8px_currentColor,0_0_20px_rgba(255,26,26,0.6)]";
+    "[text-shadow:0_0_8px_currentColor,0_0_20px_rgba(var(--theme-color-rgb),0.6)]";
 
   return (
     <div className={cardClasses}>
@@ -72,7 +72,8 @@ export const FlipCard: React.FC<FlipCardProps> = ({ digit, flip, isMinor }) => {
 
       {/* Fondo fijo simulando LED apagado */}
       <div
-        className={`absolute inset-0 flex items-center justify-center text-[#ff1a1a]/15 z-0 ${textSize}`}
+        className={`absolute inset-0 flex items-center justify-center z-0 ${textSize}`}
+        style={{ color: "rgba(var(--theme-color-rgb), 0.15)" }}
       >
         8
       </div>
